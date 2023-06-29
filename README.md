@@ -1,0 +1,22 @@
+# PostureScoring-FrontEnd
+
+This is the reconstructed front-end part of the Automatic Scoring System.
+
+`Javascript` + `React` 
+
+`React-Router` is used for building single-page application.
+
+## Start Service
+```shell
+# 安装所有依赖包
+yarn
+
+# 启动项目
+yarn dev
+
+# 安装react-router包
+yarn add react-router-dom
+```
+
+## Introduction
+[React Router](https://cp_fe.gitee.io/react-course/react-router/)
