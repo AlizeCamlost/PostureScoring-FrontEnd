@@ -12,7 +12,8 @@ import ExRecord from '../components/Layout/Exercises/ExRecord'
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Login />,
+        // element: <Login />,
+        element: <Layout />,
     },
     {
         path: '/Layout/',

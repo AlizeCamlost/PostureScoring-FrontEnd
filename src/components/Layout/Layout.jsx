@@ -4,12 +4,12 @@ const Layout = () => {
     return (
         <div>
             <div>
-                <p>
+                <div>
                     <Link to=''>【Home】</Link>
                     <Link to='Exercises'>【Exercise List】</Link>
                     <Link to='Statistics'>【Statistics】</Link>
                     <Link to='Profile'>【Profile】</Link>
-                </p>
+                </div>
             </div>
             <div>
                 <Outlet />
