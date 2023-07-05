@@ -9,20 +9,24 @@ import ExCard from '../components/Layout/Exercises/ExCard'
 import ExDetail from '../components/Layout/Exercises/ExDetail'
 import ExRecord from '../components/Layout/Exercises/ExRecord'
 
+import "../../node_modules/picnic/picnic.min.css";
+import NavBar from '../components/Layout/NavBar'
+
 const router = createBrowserRouter([
+    
     {
         path: '/',
-        // element: <Login />,
-        element: <Layout />,
+        element: <Login />,
+        // element: <Layout />,
     },
     {
         path: '/Layout/',
-        element: <Layout />,
+        element: <Home />,
         children: [
-            {
-                index: true,
-                element: <Home />
-            },
+            // {
+            //     index: true,
+            //     element: <Home/>
+            // },
             {
                 path: 'Exercises',
                 element: <Exercises />,
@@ -54,18 +58,33 @@ const router = createBrowserRouter([
         ]
     },
     // {
-    //     path: '/Home',
-    //     element: <Layout />,
-
+    //     path: 'Exercises',
+    //     element: <Exercises />,
+    //     children: [
+    //         {
+    //             path: 'ExCard',
+    //             element: <ExCard />,
+    //             children: [
+    //                 {
+    //                     index: true,
+    //                     element: <ExDetail />
+    //                 },
+    //                 {
+    //                     path: 'ExRecord',
+    //                     element: <ExRecord />
+    //                 }
+    //             ]
+    //         }
+    //     ]
     // },
     // {
-    //     path: '/about/:id',
-    //     element: <About />,
+    //     path: 'Statistics',
+    //     element: <Statistics />
     // },
     // {
-    //     path: '*',
-    //     element: <NotFound />
-    // }
+    //     path: 'Profile',
+    //     element: <Profile />
+    // },
 ])
 
 export default router
