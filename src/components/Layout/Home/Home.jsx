@@ -1,6 +1,5 @@
 import "../../../../node_modules/picnic/picnic.min.css";
 import logo from '../../../assets/211608346964.jpg'
-import Layout from "../Layout";
 
 const Home = () => {
     const brandStyle = {
@@ -21,7 +20,6 @@ const Home = () => {
     };
     return(
         <div>
-            <Layout />
             <a class="brand" style={brandStyle}>
                 <img class="logo" src={logo} style={logoStyle}/>
                 <span style={textStyle}>Welcome to Exercise Test Program</span>

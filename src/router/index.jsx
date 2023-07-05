@@ -17,74 +17,43 @@ const router = createBrowserRouter([
     {
         path: '/',
         element: <Login />,
-        // element: <Layout />,
     },
     {
-        path: '/Layout/',
-        element: <Home />,
+        path: '/Layout',
+        element: <Layout />,
         children: [
-            // {
-            //     index: true,
-            //     element: <Home/>
-            // },
-            {
-                path: 'Exercises',
-                element: <Exercises />,
-                children: [
-                    {
-                        path: 'ExCard',
-                        element: <ExCard />,
-                        children: [
-                            {
-                                index: true,
-                                element: <ExDetail />
-                            },
-                            {
-                                path: 'ExRecord',
-                                element: <ExRecord />
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                path: 'Statistics',
-                element: <Statistics />
-            },
-            {
-                path: 'Profile',
-                element: <Profile />
-            },
         ]
     },
-    // {
-    //     path: 'Exercises',
-    //     element: <Exercises />,
-    //     children: [
-    //         {
-    //             path: 'ExCard',
-    //             element: <ExCard />,
-    //             children: [
-    //                 {
-    //                     index: true,
-    //                     element: <ExDetail />
-    //                 },
-    //                 {
-    //                     path: 'ExRecord',
-    //                     element: <ExRecord />
-    //                 }
-    //             ]
-    //         }
-    //     ]
-    // },
-    // {
-    //     path: 'Statistics',
-    //     element: <Statistics />
-    // },
-    // {
-    //     path: 'Profile',
-    //     element: <Profile />
-    // },
+    {
+        path: '/Exercises',
+        element: <Exercises />,
+        children: [
+            {
+                path: 'ExCard',
+                element: <ExCard />,
+                children: [
+                    {
+                        index: true,
+                        element: <ExDetail />
+                    },
+                    {
+                        path: 'ExRecord',
+                        element: <ExRecord />
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        path: '/Statistics',
+        element: <Statistics />
+    },
+    {
+        path: '/Profile',
+        element: <Profile />
+    },
 ])
 
 export default router
+
+

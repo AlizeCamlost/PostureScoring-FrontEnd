@@ -1,5 +1,12 @@
+import NavBar from "../NavBar"
+
 const Statistics = () => {
-    return <div>this is Statistics</div>
+    return (
+    <div>
+        <NavBar />
+        <span> this is Static</span>
+
+    </div>)
 }
 
 export default Statistics

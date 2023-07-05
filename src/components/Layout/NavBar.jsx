@@ -4,18 +4,18 @@ const NavBar = () => {
         <nav>
             <div class="flex three demo">
                 <div >
-                    <Link to=''>
+                    <Link to='/Layout'>
                         <button class="pseudo">Exercise Test</button>
                     </Link>
                 </div>
                 <div class="off-fourth-800">
-                    <Link to='Exercises'>
+                    <Link to='/Exercises'>
                         <button class="pseudo">Exercise List</button>
                     </Link>
-                    <Link to='Statistics'>
+                    <Link to='/Statistics'>
                         <button class="pseudo">Statistics</button>
                     </Link>
-                    <Link to='Profile'>
+                    <Link to='/Profile'>
                         <button>Profile</button>
                     </Link>
 

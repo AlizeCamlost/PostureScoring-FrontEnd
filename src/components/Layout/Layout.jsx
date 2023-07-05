@@ -6,13 +6,12 @@ const Layout = () => {
     return (
         <div>
             <div>
-                <div>
-                    <NavBar />
-                </div>
+                <NavBar />
+                <Home />
             </div>
-            <div>
+            {/* <div>
                 <Outlet />
-            </div>
+            </div> */}
         </div>
     )
 }
