@@ -1,64 +1,23 @@
 import { Outlet, Link } from "react-router-dom"
+import React, { useState } from 'react';
 import example from '../../../assets/46999982.jpeg'
 import "../../../../node_modules/picnic/picnic.min.css";
 import "picnic"
 import NavBar from "../NavBar";
-
-// const Exercises = () => {
-//     return (
-//         <div>
-//             <NavBar />
-//             <div>
-//                 <div>Exercise type</div>
-//                 <button>All</button>
-//                 {
-//                     (() => {
-//                         let res = []
-//                         for (let i = 0; i < 3; i++) {
-//                             res.push(<button>Type {i}</button>)
-//                         }
-//                         return res
-//                     })()
-//                 }
-//             </div>
-//             <div>
-//                 <Link to='ExCard'>ex1</Link>
-//                 {
-//                     (() => {
-//                         let res = []
-//                         for (let i = 2; i <= 6; i++) {
-//                             // res.push(<Link to=''>ex{i}</Link>)
-//                             res.push(<div>ex{i}</div>)
-//                         }
-//                         return res
-//                     })()
-//                 }
-//             </div>
-//             {/* <div>
-//                 <p>Ex detail & Try it</p>
-//                 <Outlet />
-//             </div> */}
-//         </div>
-//     )
-// }
-
-// export default Exercises
-
-
-
-
-
-
-
-
-
+import ExDetail from "./ExDetail";
+import ExCard from "./ExCard";
 
 
 const Exercises = () => {
-
-    const buttonStyle = {
-
+    const [showDetail, setShowDetail] = useState(false);
+    const [selectedEx, setSelectedEx] = useState(null);
+    const handleConfirm = () => {
+        // 导航到新的路径
+        history.push(`/ex/${selectedEx}`);
+        // 关闭 Exdetail 组件
+        setShowDetail(false);
     };
+
 
     const containerStyle = {
         display: 'flex',
@@ -78,7 +37,10 @@ const Exercises = () => {
     const exContainerStyle = {
         display: 'flex',
         flexDirection: 'column',
-        gap: '20px' // 添加间隔
+        gap: '20px', // 添加间隔
+        overflowY: 'scroll', // 添加垂直滚动条
+        maxHeight: 'calc(100vh - 100px)', // 设置最大高度，以便滚动条出现
+        marginTop: '20px'
     };
 
     const exRowStyle = {
@@ -88,7 +50,7 @@ const Exercises = () => {
     };
 
     const exCardStyle = {
-        border: '1px solid black',
+        border: '2px solid blue',
         padding: '10px',
         textAlign: 'center',
         fontFamily: 'Arial, sans-serif'
@@ -97,28 +59,39 @@ const Exercises = () => {
 
     const exerciseTypeStyle = {
         fontWeight: 'bold',
-        fontSize: '20px' // 调整字体大小
+        fontSize: '20px',
+        color: '#757BF7',
+        marginTop: '20px'
     };
 
-    const exCards = (() => {
+    const exCards = (cardCount) => {
         // 将练习卡片分组为每行3个
         let res = [];
-        for (let i = 1; i <= 7; i += 3) {
+        for (let i = 1; i <= cardCount; i += 3) {
             let row = [];
             for (let j = i; j <= i + 2; j++) {
-                if (j <= 6) {
+                if (j <= cardCount) {
                     row.push(
-                        <Link to={`/ex/${j}`} style={{ textDecoration: 'none' }}>
+                        // <Link to={`/ex/${j}`} style={{ textDecoration: 'none' }}>
+                        //     <img src={example} style={{ width: '300px', height: '300px' }} />
+                        //     {/* <div style={exCardStyle}>ex{j}</div> */}
+                        // </Link>
+                        <div
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                                setSelectedEx(j);
+                                setShowDetail(true);
+                            }}
+                        >
                             <img src={example} style={{ width: '300px', height: '300px' }} />
-                            {/* <div style={exCardStyle}>ex{j}</div> */}
-                        </Link>
+                        </div>
                     );
                 }
             }
             res.push(<div style={exRowStyle}>{row}</div>);
         }
         return res;
-    })();
+    };
 
     return (
         <div style={containerStyle}>
@@ -126,23 +99,27 @@ const Exercises = () => {
             <div style={buttonContainerStyle}>
                 <div style={exerciseTypeStyle}>Exercise type</div>
                 <button class="pseudo">All</button>
-                    {
-                        (() => {
-                            let res = []
-                            for (let i = 0; i < 3; i++) {
-                                res.push(<button class="pseudo">Type {i}</button>)
-                            }
-                            return res
-                        })()
-                    }
+                {
+                    (() => {
+                        let res = []
+                        for (let i = 0; i < 5; i++) {
+                            res.push(<button class="pseudo">Type {i}</button>)
+                        }
+                        return res
+                    })()
+                }
             </div>
             <div style={exContainerStyle}>
-                {exCards}
+                {exCards(5)}
+
+                {showDetail && (
+                    <ExDetail 
+                        onConfirm={handleConfirm}
+                        exNumber={selectedEx}
+                    />
+                )}
+
             </div>
-            {/* <div>
-                <p>Ex detail & Try it</p>
-                <Outlet />
-            </div> */}
         </div>
     )
 }
