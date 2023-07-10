@@ -27,22 +27,22 @@ const router = createBrowserRouter([
     {
         path: '/Exercises',
         element: <Exercises />,
-        children: [
-            {
-                path: 'ExCard',
-                element: <ExCard />,
-                children: [
-                    {
-                        index: true,
-                        element: <ExDetail />
-                    },
-                    {
-                        path: 'ExRecord',
-                        element: <ExRecord />
-                    }
-                ]
-            }
-        ]
+        // children: [
+        //     {
+        //         path: 'ExCard',
+        //         element: <ExCard />,
+        //         children: [
+        //             {
+        //                 index: true,
+        //                 element: <ExDetail />
+        //             },
+        //             {
+        //                 path: 'ExRecord',
+        //                 element: <ExRecord />
+        //             }
+        //         ]
+        //     }
+        // ]
     },
     {
         path: '/Statistics',

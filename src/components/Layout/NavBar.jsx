@@ -5,20 +5,19 @@ const NavBar = () => {
             <div class="flex three demo">
                 <div >
                     <Link to='/Layout'>
-                        <button class="pseudo">Exercise Test</button>
+                        <button class="pseudo">Home</button>
                     </Link>
-                </div>
-                <div class="off-fourth-800">
                     <Link to='/Exercises'>
-                        <button class="pseudo">Exercise List</button>
+                        <button class="pseudo">Do Exercise</button>
                     </Link>
                     <Link to='/Statistics'>
                         <button class="pseudo">Statistics</button>
                     </Link>
+                </div>
+                <div class="off-third">
                     <Link to='/Profile'>
                         <button>Profile</button>
                     </Link>
-
                 </div>
             </div>
         </nav>
