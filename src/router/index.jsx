@@ -10,62 +10,51 @@ import ExDetail from '../components/Layout/Exercises/ExDetail'
 import ExRecord from '../components/Layout/Exercises/ExRecord'
 import UploadPic from '../components/test/uploadpic'
 
+import "../../node_modules/picnic/picnic.min.css";
+import NavBar from '../components/Layout/NavBar'
+
 const router = createBrowserRouter([
+    
     {
         path: '/',
         element: <Login />,
     },
     {
-        path: '/Layout/',
+        path: '/Layout',
         element: <Layout />,
         children: [
-            {
-                index: true,
-                element: <Home />
-            },
-            {
-                path: 'Exercises',
-                element: <Exercises />,
-                children: [
-                    {
-                        path: 'ExCard',
-                        element: <ExCard />,
-                        children: [
-                            {
-                                index: true,
-                                element: <ExDetail />
-                            },
-                            {
-                                path: 'ExRecord',
-                                element: <ExRecord />
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                path: 'Statistics',
-                element: <Statistics />
-            },
-            {
-                path: 'Profile',
-                element: <Profile />
-            },
         ]
     },
-    // {
-    //     path: '/Home',
-    //     element: <Layout />,
-
-    // },
-    // {
-    //     path: '/about/:id',
-    //     element: <About />,
-    // },
-    // {
-    //     path: '*',
-    //     element: <NotFound />
-    // }
+    {
+        path: '/Exercises',
+        element: <Exercises />,
+        // children: [
+        //     {
+        //         path: 'ExCard',
+        //         element: <ExCard />,
+        //         children: [
+        //             {
+        //                 index: true,
+        //                 element: <ExDetail />
+        //             },
+        //             {
+        //                 path: 'ExRecord',
+        //                 element: <ExRecord />
+        //             }
+        //         ]
+        //     }
+        // ]
+    },
+    {
+        path: '/Statistics',
+        element: <Statistics />
+    },
+    {
+        path: '/Profile',
+        element: <Profile />
+    },
 ])
 
 export default router
+
+

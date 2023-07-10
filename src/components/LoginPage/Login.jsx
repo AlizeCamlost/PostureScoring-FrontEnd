@@ -8,7 +8,7 @@ const Login = () => {
     return (
         <div>
             <div>
-                Welcome!
+                Welcome to Exercise Test!
             </div>
             <div>
                 Username:<input type="text" name="usrname" />

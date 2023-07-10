@@ -16,7 +16,13 @@ yarn dev
 
 # 安装react-router包
 yarn add react-router-dom
+
+# 安装 panic CSS 库 (https://github.com/franciscop/picnic)
+npm install picnic --save
 ```
 
 ## Introduction
 [React Router](https://cp_fe.gitee.io/react-course/react-router/)
+
+
+

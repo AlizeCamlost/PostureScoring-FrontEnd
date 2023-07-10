@@ -1,5 +1,12 @@
+import NavBar from "../NavBar"
+
 const Profile = () => {
-    return <div>this is Profile</div>
+    return (
+    <div>
+        <NavBar />
+        <span>this is Profile</span>
+
+    </div>)
 }
 
 export default Profile
