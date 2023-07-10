@@ -8,6 +8,7 @@ import Exercises from '../components/Layout/Exercises/Exercises'
 import ExCard from '../components/Layout/Exercises/ExCard'
 import ExDetail from '../components/Layout/Exercises/ExDetail'
 import ExRecord from '../components/Layout/Exercises/ExRecord'
+import UploadPic from '../components/test/uploadpic'
 
 import "../../node_modules/picnic/picnic.min.css";
 import NavBar from '../components/Layout/NavBar'
