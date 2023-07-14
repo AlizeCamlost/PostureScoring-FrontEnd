@@ -1,20 +1,31 @@
+import React, { useState } from 'react';
 import example from '../../../assets/46999982.jpeg'
-
-// const ExDetail = () => {
-//     return <div>this is the exercise's detail</div>
-
-// }
+import { Link } from "react-router-dom"
 
 
-const ExDetail = ({ onConfirm, exNumber }) => {
+
+const ExDetail = ({ onConfirm, onClose, exNumber}) => {
+
     const exDetailStyle = {
-
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '80%',
+        height: '80%',
+        backgroundColor: '#fff',
+        border: '1px solid #ccc',
+        borderRadius: '5px',
+        padding: '20px',
+        zIndex: '100',
     };
-    const exDetailHeaderStyle = {
-
+    const exDetailExitButtonStyle = {
+        position: 'absolute',
+        top: '10px',
+        left: '10px',
     };
     const exDetailContentStyle = {
-
+        padding: '50px',
     };
     const exDetailFooterStyle = {
 
@@ -22,8 +33,8 @@ const ExDetail = ({ onConfirm, exNumber }) => {
 
     return (
         <div style={exDetailStyle}>
-            <div style={exDetailHeaderStyle}>
-                <button onClick={() => setShowDetail(false)}>退出</button>
+            <div style={exDetailExitButtonStyle}>
+                <button onClick={onClose}>退出</button>
             </div>
             <div style={exDetailContentStyle}>
                 <img src={example} style={{ width: '200px', height: '200px' }} />
@@ -33,7 +44,9 @@ const ExDetail = ({ onConfirm, exNumber }) => {
                 </div>
             </div>
             <div style={exDetailFooterStyle}>
-                <button onClick={onConfirm}>确认</button>
+                <Link to='/Camera'>
+                        <button onClick={onConfirm} >确认</button>
+                </Link>
             </div>
         </div>
     );

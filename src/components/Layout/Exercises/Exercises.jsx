@@ -11,6 +11,9 @@ import ExCard from "./ExCard";
 const Exercises = () => {
     const [showDetail, setShowDetail] = useState(false);
     const [selectedEx, setSelectedEx] = useState(null);
+    const handleClose = () => {
+        setShowDetail(false);
+    };
     const handleConfirm = () => {
         // 导航到新的路径
         history.push(`/ex/${selectedEx}`);
@@ -115,6 +118,7 @@ const Exercises = () => {
                 {showDetail && (
                     <ExDetail 
                         onConfirm={handleConfirm}
+                        onClose={handleClose}
                         exNumber={selectedEx}
                     />
                 )}
