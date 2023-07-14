@@ -1,14 +1,8 @@
 import React, { useRef } from 'react';
+import NavBar from '../Layout/NavBar';
 import "./cameraComponentStyle.css";
 
 const Camera = () => {
-    // const cameraVideoRef = useRef<HTMLVideoElement | null>(null);
-    // const cameraCanvasRef = useRef<HTMLCanvasElement | null>(null);
-    // const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-    // // const videoData = useRef<Blob[]>([]);
-    // const videoData = useRef([]);
-    // const embedVideoData = useRef<Blob | null>(null);
-
 
     const cameraVideoRef = useRef(null);
     const cameraCanvasRef = useRef(null);
@@ -119,7 +113,9 @@ const Camera = () => {
     
 
     return (
+        
         <div className="container_col">
+            <NavBar />
             <div>
                 <video
                     id="cameraVideo"

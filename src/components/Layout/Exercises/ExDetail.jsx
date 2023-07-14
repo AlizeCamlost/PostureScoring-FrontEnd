@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import example from '../../../assets/46999982.jpeg'
+import { Link } from "react-router-dom"
+
+
 
 const ExDetail = ({ onConfirm, onClose, exNumber}) => {
 
@@ -41,7 +44,9 @@ const ExDetail = ({ onConfirm, onClose, exNumber}) => {
                 </div>
             </div>
             <div style={exDetailFooterStyle}>
-                <button onClick={onConfirm}>确认</button>
+                <Link to='/Camera'>
+                        <button onClick={onConfirm} >确认</button>
+                </Link>
             </div>
         </div>
     );
