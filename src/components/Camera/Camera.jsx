@@ -135,9 +135,14 @@ const Camera = () => {
     // }
 
     const selectImgs = (event) => {
-        const fileData = event.target.files[0];
         const formdata = new FormData();
-        formdata.append("img1", fileData);
+        console.log(event.target.files)
+        for(let idx=0;idx<event.target.files.length;idx++){
+            console.log(idx);
+            const fileData = event.target.files[idx];
+            formdata.append(`img${idx}`, fileData);
+            // console.log(formdata);
+        }
         setImgs(formdata);
     };
 
@@ -145,6 +150,7 @@ const Camera = () => {
         const headers = {
             'Content-Type': 'multipart/form-data'
         };
+        console.log(imgs);
         axios
             .post("http://34.92.189.46:5000/sendImgs/", imgs, { headers: headers })
             .then((res) => {
