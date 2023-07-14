@@ -1,14 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import NavBar from '../Layout/NavBar';
 import "./cameraComponentStyle.css";
+import axios from "axios";
 
 const Camera = () => {
-
     const cameraVideoRef = useRef(null);
     const cameraCanvasRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const videoData = useRef([]);
     const embedVideoData = useRef(null);
+
+    const [scoreStr, setScoreStr] = useState(null);
+    const [imgs, setImgs] = useState(null);
 
     function successFunc(mediaStream) {
         const video = cameraVideoRef.current;
@@ -78,42 +81,84 @@ const Camera = () => {
         video.srcObject = null;
     };
 
-    const exportVideo = () => {
-        if (embedVideoData.current == null) return false;
+
+    const downloadFrame = (dataUrl) => {
         const link = document.createElement('a');
-        link.href = URL.createObjectURL(embedVideoData.current);
-        link.download = 'video.webm';
+        link.href = dataUrl;
+        link.download = 'frame.jpeg';
         link.click();
     };
 
-    const sendVideo = () => {
-        if (embedVideoData.current === null) return;
-        const videoBlob = embedVideoData.current;
-    
-        // 创建一个新的WebSocket连接
-        const socket = new WebSocket('wss://34.92.225.35:8765/');
-    
-        // 当WebSocket连接打开时
-        socket.onopen = function(event) {
-            // 将视频数据发送到服务器
-            socket.send(videoBlob);
-        };
-    
-        // 当接收到服务器的响应消息时
-        socket.onmessage = function(event) {
-            console.log('服务器响应：', event.data);
-            // 在这里处理服务器的响应
-        };
-    
-        // 当WebSocket连接关闭时
-        socket.onclose = function(event) {
-            console.log('WebSocket连接已关闭');
-        };
+    const saveFrame = () => {
+        if (embedVideoData.current) {
+            const video = document.createElement('video');
+            video.preload = 'metadata';
+            video.src = URL.createObjectURL(embedVideoData.current);
+            video.onloadedmetadata = () => {
+                // 确保视频加载完成后获取帧
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const context = canvas.getContext('2d');
+                if (context) {
+                    const keyFrames = [0, 1, 2];
+                    function seekedPromise() {
+                        return new Promise((resolve) => {
+                            video.addEventListener('seeked', () => {
+                                resolve();
+                            });
+                        });
+                    }
+                    async function processKeyFrames() {
+                        for (let kf of keyFrames) {
+                            video.currentTime = kf;
+                            console.log(kf);
+                            await seekedPromise();
+                            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                            const frameDataUrl = canvas.toDataURL('image/jpeg');
+                            // setFrameUrl(frameDataUrl);
+                            downloadFrame(frameDataUrl);
+                        }
+                    }
+                    processKeyFrames();
+                }
+            };
+        }
     };
-    
+
+    // const sendPic = () => {
+
+    // }
+
+    // const sendRecord = () => {
+
+    // }
+
+    const selectImgs = (event) => {
+        const fileData = event.target.files[0];
+        const formdata = new FormData();
+        formdata.append("img1", fileData);
+        setImgs(formdata);
+    };
+
+    const sendImgs = () => {
+        const headers = {
+            'Content-Type': 'multipart/form-data'
+        };
+        axios
+            .post("http://34.92.189.46:5000/sendImgs/", imgs, { headers: headers })
+            .then((res) => {
+                // console.log(res.data);
+                console.log(res.data);
+                setScoreStr(res.data);
+            })
+            .catch((err) => {
+                console.log("错误");
+                console.error(err);
+            });
+    };
 
     return (
-        
         <div className="container_col">
             <NavBar />
             <div>
@@ -128,8 +173,11 @@ const Camera = () => {
                 <button className="button" onClick={startRecording}>Start Recording</button>
                 <button className="button" onClick={endRecording}>Stop Recording</button>
                 <button className="button" onClick={playVideo}>Play Video</button>
-                <button className="button" onClick={exportVideo} >Save</button>
-                <button className="button" onClick={sendVideo} >Send</button>
+                <button className="button" onClick={saveFrame}>Save Frame</button>
+                {/* <button className="button" onClick={sendRecord}>Send Record</button> */}
+                <input type="file" name="Select Pics" multiple="multiple" onChange={selectImgs} />
+                <button onClick={sendImgs}>Send Pics</button>
+                <p>Get Score: {scoreStr}</p>
             </div>
         </div>
     )
