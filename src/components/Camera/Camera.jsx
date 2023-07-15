@@ -81,7 +81,6 @@ const Camera = () => {
         video.srcObject = null;
     };
 
-
     const downloadFrame = (dataUrl) => {
         const link = document.createElement('a');
         link.href = dataUrl;
@@ -89,7 +88,7 @@ const Camera = () => {
         link.click();
     };
 
-    const saveFrame = () => {
+    const saveFrame = async () => {
         if (embedVideoData.current) {
             const video = document.createElement('video');
             video.preload = 'metadata';
@@ -101,7 +100,7 @@ const Camera = () => {
                 canvas.height = video.videoHeight;
                 const context = canvas.getContext('2d');
                 if (context) {
-                    const keyFrames = [0, 1, 2];
+                    const keyFrames = [0, 2, 5];
                     function seekedPromise() {
                         return new Promise((resolve) => {
                             video.addEventListener('seeked', () => {
@@ -109,15 +108,45 @@ const Camera = () => {
                             });
                         });
                     }
+                    function sendImg(formData) {
+                        const headers = {
+                            'Content-Type': 'multipart/form-data'
+                        };
+                        axios
+                            .post('http://34.92.189.46:5000/sendImgs/', formData, { headers: headers })
+                            .then(res => {
+                                console.log(res.data);
+                                // setScoreStr(res.data);
+                            })
+                            .catch(err => {
+                                console.log('错误');
+                                console.error(err);
+                            });
+                    };
+                    function dataURLtoBlob(dataURL) {
+                        return new Promise((resolve, reject) => {
+                            canvas.toBlob(blob => {
+                                if (blob) {
+                                    resolve(blob);
+                                } else {
+                                    reject(new Error('Failed to convert data URL to Blob'));
+                                }
+                            }, 'image/jpeg');
+                        });
+                    }
                     async function processKeyFrames() {
-                        for (let kf of keyFrames) {
-                            video.currentTime = kf;
-                            console.log(kf);
+                        for (let kf in keyFrames) {
+                            video.currentTime = keyFrames[kf];
+                            console.log(keyFrames[kf]);
                             await seekedPromise();
                             context.drawImage(video, 0, 0, canvas.width, canvas.height);
                             const frameDataUrl = canvas.toDataURL('image/jpeg');
-                            // setFrameUrl(frameDataUrl);
-                            downloadFrame(frameDataUrl);
+
+                            const blob = await dataURLtoBlob(frameDataUrl);
+                            const file = new File([blob], `image${kf}.jpg`, { type: 'image/jpeg' });
+                            const formData = new FormData();
+                            formData.append(`image${kf}`, file);
+                            sendImg(formData);
                         }
                     }
                     processKeyFrames();
@@ -126,18 +155,63 @@ const Camera = () => {
         }
     };
 
-    // const sendPic = () => {
 
-    // }
+    const startSend = async () => {
+        const stringToSend = "START";
+        console.log(stringToSend);
+        const headers = {
+            'Content-Type': 'text/plain',
+        };
+        const response = await axios.post('http://34.92.189.46:5000/sendStart/', stringToSend, { headers: headers });
+        console.log(response.data);
+    }
 
-    // const sendRecord = () => {
+    const endSend = async () => {
+        const stringToSend = "END";
+        console.log(stringToSend);
+        const headers = {
+            'Content-Type': 'text/plain',
+        };
+        const response = await axios.post('http://34.92.189.46:5000/sendEnd/', stringToSend, { headers: headers });
+        console.log(response.data);
+        setScoreStr(response.data)
+    }
 
-    // }
+    const sendRecord = async () => {
+        function waitFiveSecondsAsync() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    console.log("5 seconds have passed.");
+                    resolve();
+                }, 5000);
+            });
+        }
+        async function executeAndWait() {
+            console.log("Start waiting...");
+            await waitFiveSecondsAsync();
+            console.log("Waiting is done.");
+        }
+
+        await startSend();
+
+        executeAndWait();
+
+        await saveFrame();
+
+        executeAndWait();
+
+        await endSend();
+    }
 
     const selectImgs = (event) => {
-        const fileData = event.target.files[0];
         const formdata = new FormData();
-        formdata.append("img1", fileData);
+        console.log(event.target.files)
+        for (let idx = 0; idx < event.target.files.length; idx++) {
+            console.log(idx);
+            const fileData = event.target.files[idx];
+            formdata.append(`img${idx}`, fileData);
+            // console.log(formdata);
+        }
         setImgs(formdata);
     };
 
@@ -145,12 +219,13 @@ const Camera = () => {
         const headers = {
             'Content-Type': 'multipart/form-data'
         };
+        console.log(imgs);
         axios
             .post("http://34.92.189.46:5000/sendImgs/", imgs, { headers: headers })
             .then((res) => {
                 // console.log(res.data);
                 console.log(res.data);
-                setScoreStr(res.data);
+                // setScoreStr(res.data);
             })
             .catch((err) => {
                 console.log("错误");
@@ -173,10 +248,10 @@ const Camera = () => {
                 <button className="button" onClick={startRecording}>Start Recording</button>
                 <button className="button" onClick={endRecording}>Stop Recording</button>
                 <button className="button" onClick={playVideo}>Play Video</button>
-                <button className="button" onClick={saveFrame}>Save Frame</button>
-                {/* <button className="button" onClick={sendRecord}>Send Record</button> */}
-                <input type="file" name="Select Pics" multiple="multiple" onChange={selectImgs} />
-                <button onClick={sendImgs}>Send Pics</button>
+                {/* <button className="button" onClick={saveFrame}>Save Frame</button> */}
+                <button className="button" onClick={sendRecord}>Send Record</button>
+                {/* <input type="file" name="Select Pics" multiple="multiple" onChange={selectImgs} /> */}
+                {/* <button onClick={sendImgs}>Send Pics</button> */}
                 <p>Get Score: {scoreStr}</p>
             </div>
         </div>
