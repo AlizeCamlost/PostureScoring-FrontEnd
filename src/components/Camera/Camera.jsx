@@ -88,7 +88,7 @@ const Camera = () => {
         link.click();
     };
 
-    const saveFrame = async () => {
+    const saveFrame = async () => {   // Send One single frame
         if (embedVideoData.current) {
             const video = document.createElement('video');
             video.preload = 'metadata';
@@ -100,7 +100,7 @@ const Camera = () => {
                 canvas.height = video.videoHeight;
                 const context = canvas.getContext('2d');
                 if (context) {
-                    const keyFrames = [0, 2, 5];
+                    const keyFrames = [0, 1, 2];
                     function seekedPromise() {
                         return new Promise((resolve) => {
                             video.addEventListener('seeked', () => {
@@ -113,7 +113,7 @@ const Camera = () => {
                             'Content-Type': 'multipart/form-data'
                         };
                         axios
-                            .post('http://34.92.189.46:5000/sendImgs/', formData, { headers: headers })
+                            .post('http://34.92.189.46:5000/Img/', formData, { headers: headers })
                             .then(res => {
                                 console.log(res.data);
                                 // setScoreStr(res.data);
@@ -145,7 +145,7 @@ const Camera = () => {
                             const blob = await dataURLtoBlob(frameDataUrl);
                             const file = new File([blob], `image${kf}.jpg`, { type: 'image/jpeg' });
                             const formData = new FormData();
-                            formData.append(`image${kf}`, file);
+                            formData.append(kf, file);
                             sendImg(formData);
                         }
                     }
@@ -157,12 +157,14 @@ const Camera = () => {
 
 
     const startSend = async () => {
-        const stringToSend = "START";
-        console.log(stringToSend);
-        const headers = {
-            'Content-Type': 'text/plain',
+        const dataToSend = {
+            'target':'kneeling_push_ups',
         };
-        const response = await axios.post('http://34.92.189.46:5000/sendStart/', stringToSend, { headers: headers });
+        console.log(dataToSend);
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+        const response = await axios.post('http://34.92.189.46:5000/Start/', dataToSend, { headers: headers });
         console.log(response.data);
     }
 
@@ -172,12 +174,12 @@ const Camera = () => {
         const headers = {
             'Content-Type': 'text/plain',
         };
-        const response = await axios.post('http://34.92.189.46:5000/sendEnd/', stringToSend, { headers: headers });
+        const response = await axios.post('http://34.92.189.46:5000/End/', stringToSend, { headers: headers });
         console.log(response.data);
         setScoreStr(response.data)
     }
 
-    const sendRecord = async () => {
+    const sendRecord = async () => {    // start-send frame cycle-end
         function waitFiveSecondsAsync() {
             return new Promise(resolve => {
                 setTimeout(() => {
