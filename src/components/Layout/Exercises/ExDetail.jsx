@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import example from '../../../assets/46999982.jpeg'
+import example from '../../../assets/examplecover.png'
 import { Link } from "react-router-dom"
 
 

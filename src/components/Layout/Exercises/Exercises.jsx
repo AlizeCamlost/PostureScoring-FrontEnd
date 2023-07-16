@@ -1,6 +1,6 @@
 import { Outlet, Link } from "react-router-dom"
 import React, { useState } from 'react';
-import example from '../../../assets/46999982.jpeg'
+import example from '../../../assets/examplecover.png'
 import "../../../../node_modules/picnic/picnic.min.css";
 import "picnic"
 import NavBar from "../NavBar";
