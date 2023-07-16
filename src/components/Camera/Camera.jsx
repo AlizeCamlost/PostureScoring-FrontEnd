@@ -194,11 +194,11 @@ const Camera = () => {
 
         await startSend();
 
-        executeAndWait();
+        await executeAndWait();
 
         await saveFrame();
 
-        executeAndWait();
+        await executeAndWait();
 
         await endSend();
     }
