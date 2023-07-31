@@ -1,6 +1,14 @@
 import { Outlet, Link } from "react-router-dom"
 import React, { useState } from 'react';
-import example from '../../../assets/examplecover.png'
+import ex_a from '../../../assets/a.png';
+import ex_b from '../../../assets/b.png';
+import ex_c from '../../../assets/c.png';
+import ex_d from '../../../assets/d.png';
+import ex_e from '../../../assets/e.png';
+import ex_f from '../../../assets/f.png';
+import ex_g from '../../../assets/g.png';
+import ex_h from '../../../assets/h.png';
+import ex_i from '../../../assets/i.png';
 import "../../../../node_modules/picnic/picnic.min.css";
 import "picnic"
 import NavBar from "../NavBar";
@@ -69,16 +77,13 @@ const Exercises = () => {
 
     const exCards = (cardCount) => {
         // 将练习卡片分组为每行3个
+        const examples = [ex_a, ex_b, ex_c, ex_d, ex_e, ex_f, ex_g, ex_h, ex_i];
         let res = [];
         for (let i = 1; i <= cardCount; i += 3) {
             let row = [];
             for (let j = i; j <= i + 2; j++) {
                 if (j <= cardCount) {
                     row.push(
-                        // <Link to={`/ex/${j}`} style={{ textDecoration: 'none' }}>
-                        //     <img src={example} style={{ width: '300px', height: '300px' }} />
-                        //     {/* <div style={exCardStyle}>ex{j}</div> */}
-                        // </Link>
                         <div
                             style={{ cursor: 'pointer' }}
                             onClick={() => {
@@ -86,7 +91,7 @@ const Exercises = () => {
                                 setShowDetail(true);
                             }}
                         >
-                            <img src={example} style={{ width: '300px', height: '300px' }} />
+                            <img src={examples[j-1]} style={{ width: '300px', height: '300px' }} />
                         </div>
                     );
                 }
@@ -101,7 +106,7 @@ const Exercises = () => {
             <NavBar />
             <div style={buttonContainerStyle}>
                 <div style={exerciseTypeStyle}>Exercise type</div>
-                <button class="pseudo">All</button>
+                {/* <button class="pseudo">All</button>
                 {
                     (() => {
                         let res = []
@@ -110,10 +115,10 @@ const Exercises = () => {
                         }
                         return res
                     })()
-                }
+                } */}
             </div>
             <div style={exContainerStyle}>
-                {exCards(5)}
+                {exCards(9)}
 
                 {showDetail && (
                     <ExDetail 

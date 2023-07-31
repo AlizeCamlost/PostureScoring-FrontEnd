@@ -1,9 +1,16 @@
 import React, { useState, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import NavBar from '../Layout/NavBar';
 import "./cameraComponentStyle.css";
+import video_a from "../../assets/video_a.mp4"
 import axios from "axios";
 
+
+
 const Camera = () => {
+    const { exNumber } = useParams();
+    const video_exs = [video_a];
+
     const cameraVideoRef = useRef(null);
     const cameraCanvasRef = useRef(null);
     const mediaRecorderRef = useRef(null);
@@ -158,7 +165,7 @@ const Camera = () => {
 
     const startSend = async () => {
         const dataToSend = {
-            'target':'kneeling_push_ups',
+            'target': 'kneeling_push_ups',
         };
         console.log(dataToSend);
         const headers = {
@@ -238,12 +245,18 @@ const Camera = () => {
     return (
         <div className="container_col">
             <NavBar />
-            <div>
-                <video
-                    id="cameraVideo"
-                    ref={cameraVideoRef}
-                    className="video"
-                />
+            <span className='h1'>Exercise {exNumber}</span>
+            <div className='camera-container'>
+                <div>
+                    <video
+                        id="cameraVideo"
+                        ref={cameraVideoRef}
+                        className="video"
+                    />
+                </div>
+                <div className="camera-animation">
+                    <video src={video_exs[exNumber-1]} autoPlay muted loop></video>
+                </div>
             </div>
             <div className="container_vol">
                 <button className="button" onClick={openMedia} >Open Camera</button>
@@ -261,3 +274,4 @@ const Camera = () => {
 }
 
 export default Camera
+

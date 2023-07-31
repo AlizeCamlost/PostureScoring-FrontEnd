@@ -55,7 +55,7 @@ const router = createBrowserRouter([
         element: <Profile />
     },
     {
-        path: '/Camera',
+        path: '/Camera/:exNumber',
         element: <Camera />
     }
 ])
