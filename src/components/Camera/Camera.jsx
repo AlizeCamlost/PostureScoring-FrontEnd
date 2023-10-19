@@ -5,14 +5,11 @@ import "./cameraComponentStyle.css";
 import video_a from "../../assets/video_a.mp4"
 import axios from "axios";
 
-
-
 const Camera = () => {
     const { exNumber } = useParams();
     const video_exs = [video_a];
 
     const cameraVideoRef = useRef(null);
-    const cameraCanvasRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const videoData = useRef([]);
     const embedVideoData = useRef(null);
@@ -123,7 +120,6 @@ const Camera = () => {
                             .post('http://34.92.189.46:5000/Img/', formData, { headers: headers })
                             .then(res => {
                                 console.log(res.data);
-                                // setScoreStr(res.data);
                             })
                             .catch(err => {
                                 console.log('错误');
@@ -187,28 +183,8 @@ const Camera = () => {
     }
 
     const sendRecord = async () => {    // start-send frame cycle-end
-        function waitFiveSecondsAsync() {
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    console.log("5 seconds have passed.");
-                    resolve();
-                }, 5000);
-            });
-        }
-        async function executeAndWait() {
-            console.log("Start waiting...");
-            await waitFiveSecondsAsync();
-            console.log("Waiting is done.");
-        }
-
         await startSend();
-
-        await executeAndWait();
-
         await saveFrame();
-
-        await executeAndWait();
-
         await endSend();
     }
 
@@ -219,7 +195,6 @@ const Camera = () => {
             console.log(idx);
             const fileData = event.target.files[idx];
             formdata.append(`img${idx}`, fileData);
-            // console.log(formdata);
         }
         setImgs(formdata);
     };
@@ -232,9 +207,7 @@ const Camera = () => {
         axios
             .post("http://34.92.189.46:5000/sendImgs/", imgs, { headers: headers })
             .then((res) => {
-                // console.log(res.data);
                 console.log(res.data);
-                // setScoreStr(res.data);
             })
             .catch((err) => {
                 console.log("错误");
@@ -263,10 +236,7 @@ const Camera = () => {
                 <button className="button" onClick={startRecording}>Start Recording</button>
                 <button className="button" onClick={endRecording}>Stop Recording</button>
                 <button className="button" onClick={playVideo}>Play Video</button>
-                {/* <button className="button" onClick={saveFrame}>Save Frame</button> */}
                 <button className="button" onClick={sendRecord}>Send Record</button>
-                {/* <input type="file" name="Select Pics" multiple="multiple" onChange={selectImgs} /> */}
-                {/* <button onClick={sendImgs}>Send Pics</button> */}
                 <p>Get Score: {scoreStr}</p>
             </div>
         </div>
