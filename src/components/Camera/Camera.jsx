@@ -5,6 +5,8 @@ import "./cameraComponentStyle.css";
 import video_a from "../../assets/video_a.mp4"
 import axios from "axios";
 
+const KET_FRAMES = [0, 1, 2];
+
 const Camera = () => {
     const { exNumber } = useParams();
     const video_exs = [video_a];
@@ -103,8 +105,10 @@ const Camera = () => {
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 const context = canvas.getContext('2d');
+
                 if (context) {
-                    const keyFrames = [0, 1, 2];
+                    const keyFrames = getKeyFrame();
+
                     function seekedPromise() {
                         return new Promise((resolve) => {
                             video.addEventListener('seeked', () => {
@@ -112,6 +116,7 @@ const Camera = () => {
                             });
                         });
                     }
+
                     function sendImg(formData) {
                         const headers = {
                             'Content-Type': 'multipart/form-data'
@@ -126,6 +131,7 @@ const Camera = () => {
                                 console.error(err);
                             });
                     };
+
                     function dataURLtoBlob(dataURL) {
                         return new Promise((resolve, reject) => {
                             canvas.toBlob(blob => {
@@ -137,6 +143,7 @@ const Camera = () => {
                             }, 'image/jpeg');
                         });
                     }
+
                     async function processKeyFrames() {
                         for (let kf in keyFrames) {
                             video.currentTime = keyFrames[kf];
@@ -188,6 +195,10 @@ const Camera = () => {
         await endSend();
     }
 
+    const getKeyFrame = () => {
+        return KET_FRAMES;
+    }
+
     const selectImgs = (event) => {
         const formdata = new FormData();
         console.log(event.target.files)
@@ -228,7 +239,7 @@ const Camera = () => {
                     />
                 </div>
                 <div className="camera-animation">
-                    <video src={video_exs[exNumber-1]} autoPlay muted loop></video>
+                    <video src={video_exs[exNumber - 1]} autoPlay muted loop></video>
                 </div>
             </div>
             <div className="container_vol">
